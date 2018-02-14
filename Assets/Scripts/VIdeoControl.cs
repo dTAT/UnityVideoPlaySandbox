@@ -14,9 +14,16 @@ public class VIdeoControl : MonoBehaviour {
 	UnityEngine.UI.Text testStatus;
 	private void Awake () {
 		videoPlayer = GetComponent<VideoPlayer> ();
+		videoPlayer.seekCompleted += (_) => {
+			Debug.Log ("seek complete");
+		};
+		videoPlayer.loopPointReached += (_) => {
+			Debug.Log ("loop point reached");
+		};
 		InitializeVideoPlayer (videoPlayer);
 	}
 	private void InitializeVideoPlayer (VideoPlayer player) {
+		Debug.Log ("initialize:");
 		//player.Pause ();
 		//player.Stop ();
 		player.time = 0;
@@ -47,13 +54,14 @@ public class VIdeoControl : MonoBehaviour {
 		player.prepareCompleted += Play;
 	}
 	private void Play (VideoPlayer player) {
+		Debug.Log ("play");
 		testStatus.text = "playing";
 		player.Play ();
 		player.prepareCompleted -= Play;
 	}
 	public void Stop (VideoPlayer player) {
-		//player.Stop ();
+		Debug.Log ("stop:");
+		player.Stop ();
 		//player.url = string.Empty;
-		InitializeVideoPlayer (player);
 	}
 }
